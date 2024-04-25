@@ -1,0 +1,42 @@
+// diagrama de base de datos
+//https://dbdocs.io/josshuamejia/mascota
+//password: mascota
+
+database
+- diagrama
+- crud
+- primera norma formal
+- segunda
+- tercera
+- tablas
+1. hacer triggers
+2. hacer funciones
+3. hacer procedimientos almacenados
+4. hacer vistas
+5. index
+
+
+1, mapear todas las tablas con el ORM y tambien sus relaciones
+1.5, DTO -> data transfer object
+persona
+ -nombre
+ -edad
+2, crear rutas con el siguiente formato para todas las tablas
+*GET ALL (este tiene que tener paginacion)
+api/v1/mascota?paga=1&items=100
+*GET BY ID
+api/v1/mascota/{id}
+*POST
+api/v1/mascota
+*PUT
+api/v1/mascota -post
+api/v1/mascota/{id} - update
+*DELETE
+api/v1/mascota/{id}
+3, usar postman para documentar
+4, usar openApi(swagger) para documentar -openapieditor
+
+
+
+
+

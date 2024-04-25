@@ -1,0 +1,38 @@
+version: "3.1"
+
+services:
+  pentaho:
+    image: andrespp/pentaho-server:latest
+    container_name: pentaho-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/.pentaho:/pentaho-server/.pentaho:rw
+      - ./data/logs:/pentaho-server/tomcat/logs:rw
+      - ./data/repository:/pentaho-server/pentaho-solutions/system/jackrabbit/repository:rw
+      - ./data/tmp:/pentaho-server/tmp:rw
+    networks:
+      - red_pentaho
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passwordSuperSeguro1
+      MYSQL_DATABASE: data_mart
+      MYSQL_USER: usuarioSuperSeguro
+      MYSQL_PASSWORD: passwordSuperSeguro2
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - red_pentaho
+
+volumes:
+  mysql_data:
+
+networks:
+  red_pentaho:

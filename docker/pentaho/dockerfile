@@ -1,0 +1,39 @@
+# Utiliza una imagen base de Ubuntu compatible con la arquitectura ARM64
+FROM ubuntu:latest
+
+# Instala las dependencias necesarias
+RUN apt-get update && apt-get install -y \
+    openjdk-8-jre-headless \
+    wget \
+    unzip \
+    libjackrabbit-java \
+    && rm -rf /var/lib/apt/lists/*
+
+# Descarga el archivo ZIP de Pentaho Server
+RUN wget https://downloads.sourceforge.net/project/pentaho/Pentaho%209.3/server/pentaho-server-ce-9.3.0.0-423.zip
+
+# Extrae el archivo ZIP en /opt
+RUN unzip pentaho-server-ce-9.3.0.0-423.zip -d /opt
+
+# Elimina el archivo ZIP después de la extracción
+RUN rm pentaho-server-ce-9.3.0.0-423.zip
+
+RUN wget https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-java-5.1.44.zip
+
+RUN rm /pentaho-server/tomcat/lib/mysql-connector-java-5.1.17.jar
+
+RUN unzip mysql-connector-java-5.1.44.zip -d /pentaho-server/tomcat/lib
+
+RUN rm mysql-connector-java-5.1.44.zip
+
+# Configura PENTAHO_JAVA_HOME
+ENV PENTAHO_JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64
+
+# Expone el puerto 8080 para acceder a Pentaho Server
+EXPOSE 8080
+
+# Establece el directorio de trabajo
+WORKDIR /opt/pentaho-server/pentaho-solutions/system/
+
+# Inicia Pentaho Server
+CMD ["./start-pentaho.sh"]
